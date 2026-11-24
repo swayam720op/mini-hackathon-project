@@ -1,35 +1,71 @@
 # Student Grade Analyzer
 
 ## Problem statement
-Create a menu-driven C program that processes marks in five subjects for multiple students. It reports each student's total, percentage, grade, and pass/fail result, then identifies the class topper and calculates the class average.
+Develop a result-processing program that calculates student performance across five subjects for multiple students. The program reports each student's total marks, percentage, grade, and pass/fail status. It also finds the class topper and calculates the class average.
 
 ## Team details
-- Team number: [Enter team number]
-- Batch: [Enter batch]
-- Members: [Enter the names of all team members]
+- Team number: Not assigned
+- Batch: 35
+- Team members: Swayam Asthana, Sahibpreet Singh, Kshitji Arora
 
-## Features
-- Accepts results for 1 to 30 students.
-- Accepts a name and marks from 0 to 100 for each of five subjects.
-- Validates numeric inputs and mark ranges.
-- A student passes only when every subject mark is at least 40.
-- Calculates total out of 500 and percentage.
-- Assigns grades using these percentage bands: A (90-100), B (80-89.99), C (70-79.99), D (60-69.99), F (below 60).
-- Displays a student-wise report, topper, and class average.
-- Lets the user enter a new class list or display the current report from a menu.
+## Objectives and features
+- Enter results for 1 to 30 students across five subjects.
+- Validate student count and subject marks. Marks must be whole numbers from 0 to 100.
+- Calculate total marks out of 500 and percentage for each student.
+- Assign a grade using the percentage bands below.
+- Mark a student as passed only when every subject mark is at least 40.
+- Display a class report, identify the topper, and calculate the class average.
+- Use a menu to enter results, display the report, or exit.
+
+### Grade bands
+- A: 90% or above
+- B: 80% to below 90%
+- C: 70% to below 80%
+- D: 60% to below 70%
+- F: below 60%
 
 ## C concepts used
-Variables, constants, structures, arrays, loops, conditional statements, functions, pointers, formatted input/output, and basic input validation.
+- **Structure (`struct Student`)** stores each student's name, five marks, total, percentage, grade, and pass/fail result together.
+- **Arrays** store the five subject marks and the group of student records.
+- **Variables and constants** store results and define limits such as `SUBJECTS` and `MAX_STUDENTS`.
+- **Functions** split the program into input validation (`readInteger`), result calculation (`calculateResult`), student input (`enterStudents`), and reporting (`displayReport`).
+- **Pointers** let `calculateResult` update a student record and let `enterStudents` return the number of entered students.
+- **Loops** (`for`, `while`, and `do-while`) repeat input, calculations, validation, and the menu.
+- **Conditional statements** (`if`, `else if`, and `else`) validate values, decide pass/fail, assign grades, and choose menu actions.
+- **Formatted input and output** use `scanf` and `printf` to read data and display the report. `getchar` clears invalid extra input.
+- **Arithmetic and type conversion** calculate totals and percentages.
 
 ## Algorithm
-1. Show the menu until the user chooses Exit.
-2. When entering results, read the number of students, then each student's name and five marks.
-3. Add the five marks and check whether every subject mark is at least 40.
-4. Divide the total by five to calculate the percentage, then assign a grade.
-5. When requested, display each result, find the highest total, and calculate the class average percentage.
+1. Initialize the student count to zero.
+2. Display the menu: enter results, display report, or exit.
+3. If the user chooses to enter results, ask for the number of students (1 to 30).
+4. For each student, read the name and five marks. Validate each mark is between 0 and 100.
+5. Add the marks. If any subject mark is below 40, mark the student as failed.
+6. Calculate the percentage and assign a grade from the grade bands.
+7. If the user requests the report, display every student's results, find the highest total, and calculate the class average percentage.
+8. Return to the menu until the user chooses Exit.
+
+## Flowchart
+```mermaid
+flowchart TD
+    A([Start]) --> B[Initialize student count to zero]
+    B --> C[Display menu]
+    C --> D{Menu choice}
+    D -->|Enter results| E[Read number of students]
+    E --> F[Read each name and five marks]
+    F --> G[Validate marks and calculate each result]
+    G --> C
+    D -->|Display report| H{Any student results entered?}
+    H -->|No| I[Ask user to enter results first]
+    I --> C
+    H -->|Yes| J[Display student results]
+    J --> K[Find topper and class average]
+    K --> C
+    D -->|Exit| L([End])
+```
 
 ## Compile and run
-Using GCC:
+With GCC:
 
 ```sh
 gcc student_grade_analyzer.c -o student_grade_analyzer
@@ -44,21 +80,30 @@ student_grade_analyzer.exe
 ```
 
 ## Sample test case
-Enter two students:
+Enter two students using menu option 1, then choose option 2 to display the report.
 
-- Asha: 90, 80, 70, 60, 100
-- Ravi: 40, 40, 40, 40, 39
+| Student | Subject marks | Total | Percentage | Grade | Status |
+|---|---|---:|---:|---|---|
+| Asha | 90, 80, 70, 60, 100 | 400/500 | 80.00% | B | PASS |
+| Ravi | 40, 40, 40, 40, 39 | 199/500 | 39.80% | F | FAIL |
 
-Expected calculations:
+Expected class topper: Asha. Expected class average: 59.90%.
 
-| Student | Total | Percentage | Grade | Status |
-|---|---:|---:|---|---|
-| Asha | 400/500 | 80.00% | B | PASS |
-| Ravi | 199/500 | 39.80% | F | FAIL |
+### Actual output
+```text
+STUDENT RESULT REPORT
+---------------------------------------------------------------
+Name                 Total   Percent   Grade   Status
+---------------------------------------------------------------
+Asha                 400/500    80.00%     B     PASS
+Ravi                 199/500    39.80%     F     FAIL
+---------------------------------------------------------------
+Class topper: Asha (400/500, 80.00%)
+Class average: 59.90%
+Pass rule: at least 40 marks in every subject.
+Grade rule: A >= 90, B >= 80, C >= 70, D >= 60, otherwise F.
+```
 
-The report should identify Asha as the class topper and show a class average of 59.90%. Ravi fails because one subject is below 40, even though his marks in the other subjects meet the minimum.
+## Notes
+The program compiled and produced the sample output above with GCC. Confirm the grade bands with your faculty if different rules were specified. The hackathon guidelines also require a presentation for the Lab 2 demonstration.
 
-Actual output: Run the program with the sample marks above to view the formatted report. Replace this line with a screenshot or captured terminal output after running it in the lab environment.
-
-## Notes for the team
-Review and adapt the grade bands if the faculty specifies different rules. Add the team details and attach the required sample output before submitting the repository. The faculty guidelines also request a presentation for the Lab 2 demonstration.
